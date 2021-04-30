@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 def home(request):
-    return render(request,'Covid19PredictorApp/base.html')
+    return render(request,'Covid19PredictorApp/home.html')
 
 def about(request):
     return render(request,'Covid19PredictorApp/about.html')
