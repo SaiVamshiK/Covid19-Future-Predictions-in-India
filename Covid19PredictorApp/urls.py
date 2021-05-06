@@ -8,4 +8,8 @@ urlpatterns = [
     path('display_plot/',views.display_plot,name='Display-Plot'),
     path('cumulative/',views.cumulative,name='Cumulative'),
     path('daywise/',views.daywise,name='Daywise'),
+    path('overall/',views.overall,name='Overall-Analysis'),
+    path('overall/display_plot/',views.overallDisplay,name='Display-Overall-Analysis'),
+    path('overall/cumulative/',views.overallCumulative,name='Cumulative-Overall-Analysis'),
+    path('overall/display_plot/',views.overallDisplay,name='Display-Overall-Analysis'),
 ]

@@ -152,9 +152,11 @@ states = [
     {
         'image' : '../../../static/Covid19PredictorApp/state_images/westbengal.png',
         'name' : 'West Bengal'
+    },
+    {
+        'image' : '../../../static/Covid19PredictorApp/state_images/india.png',
+        'name' : 'India'
     }
-
-
     
 
 ]
@@ -254,10 +256,55 @@ def daywise(request):
     
     
 
+def overall(request):
+    context = {
+        'states': states
+    }
+    return render(request,'Covid19PredictorApp/overall.html',context)
     
 
-    
+def overallDisplay(request):
+    if 'state_name' in request.GET:
+        message = request.GET['state_name']
+    else:
+        message = 'No state selected!!'
 
-    
+    context = {
+        'state_name' : message
+    }
+
+    return render(request,'Covid19PredictorApp/display_plot.html',context)
+
+def overallCumulative(request):
+    if 'state_name' in request.GET:
+        message = request.GET['state_name']
+    else:
+        message = 'No state selected!!'
+
+    context = {
+        'state_name' : message
+    }
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
+    dates = []
+    confirmed_cases = []
+    for i in range(len(df)):
+        if df.iloc[i]['State'] == message:
+            t = df.iloc[i]['Date'].split('-')
+            v = datetime.datetime(int(t[0]),int(t[1]),int(t[2]))
+            dates.append(v)
+            confirmed_cases.append(df.iloc[i]['Confirmed'])
+
+    fig, ax = plt.subplots()
+    ax.plot(dates, confirmed_cases)
+    ax.grid()
+    stri = "Confirmed cases in "+message
+    plt.title(stri)
+    plt.xlabel("Dates")
+    plt.ylabel("Confirmed cases")
+    buf = io.BytesIO()
+    plt.savefig(buf,format='png')
+    plt.close(fig)
+    response = HttpResponse(buf.getvalue(),content_type='image/png')
+    return response
 
 
