@@ -324,10 +324,6 @@ def overall(request):
         if (df.iloc[i]['State'] == "India"):
             confirmed_india.append(df.iloc[i]['Confirmed'])
             dates_india.append(df.iloc[i]['Date'])
-    for i in range(len(confirmed_india)):
-        print(dates_india[i], confirmed_india[i])
-
-
 
     context = {
         'states': states
@@ -339,8 +335,6 @@ def overall(request):
     predictions = model.predict(inp_X)
 
     plt.figure(figsize=(19, 8))
-    print(len(nums))
-    print(len(predictions))
     exp_date = 0
     change = False
     for i in range(400, 1999):
@@ -354,8 +348,7 @@ def overall(request):
 
     current_date = date.today().isoformat()
     days_after = (date.today() + timedelta(days=num_days)).isoformat()
-    context['current-date']=current_date
-    context['deadline']=days_after
+    context['current_date_val'] = current_date
+    context['deadline'] = days_after
 
-    return render(request,'Covid19PredictorApp/overall.html',context)
-    
+    return render(request, 'Covid19PredictorApp/overall.html', context)

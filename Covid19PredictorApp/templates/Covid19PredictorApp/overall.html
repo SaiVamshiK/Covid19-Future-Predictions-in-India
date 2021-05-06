@@ -31,18 +31,31 @@
 
 
                 <div class="card-content">
-                  <p class="flow-text" style="text-align: center;">Predicted Deadline</p>
+                  <p class="flow-text" style="text-align: center;">Today's Date</p>
                 </div>
 
 
                 <div class="card-action" style="text-align: center;">
                   <div class="btn-group">
-                      <h2>{{ deadline }}</h2>
+                      <h6 >{{ current_date_val }}</h6>
                   </div>
                 </div>
 
+            </div>
+            <div class="card" style="max-width: 400px;">
 
-          </div>
+                <div class="card-content">
+                  <p class="flow-text" style="text-align: center;">Predicted Deadline</p>
+                </div>
+
+                <div class="card-action" style="text-align: center;">
+                  <div class="btn-group">
+                      <h6 >{{ deadline }}</h6>
+                  </div>
+                </div>
+
+            </div>
+
         </div>
 
     {% endif %}
