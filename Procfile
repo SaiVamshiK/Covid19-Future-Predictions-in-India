@@ -1,1 +1,1 @@
-web: gnunicorn Covid19Predictions.wsgi --log-file -
+web: gunicorn Covid19Predictions.wsgi --log-file -
