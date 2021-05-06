@@ -6,31 +6,44 @@
     {% if state.name == 'India' %}
 
 
-        <div style="padding-left: 450px;">
-        <div class="card" style="max-width: 400px;">
-            <div class="card-image">
-              <img src="{{state.image}}">
+        <div style="padding-left: 200px;" >
+            <div class="card" style="max-width: 400px;">
+                <div class="card-image">
+                  <img src="{{state.image}}">
 
-            </div>
-            <div class="card-content">
-              <p class="flow-text" style="text-align: center;">{{state.name}}</p>
-            </div>
+                </div>
+                <div class="card-content">
+                  <p class="flow-text" style="text-align: center;">{{state.name}}</p>
+                </div>
 
 
-            <div class="card-action" style="text-align: center;">
-              <div class="btn-group">
-                <a href="../see_prediction/?state_name={{state.name}}">See Predictions</a>
-                <a href="../cumulative/?state_name={{state.name}}">Cumulative Plot</a>
-                <a href="../daywise/?state_name={{state.name}}">Day-wise Plot</a>
+                <div class="card-action" style="text-align: center;">
+                  <div class="btn-group">
+                    <a href="../see_prediction/?state_name={{state.name}}">See Predictions</a>
+                    <a href="../cumulative/?state_name={{state.name}}">Cumulative Plot</a>
+                    <a href="../daywise/?state_name={{state.name}}">Day-wise Plot</a>
+                  </div>
+                </div>
               </div>
-            </div>
+        </div>
+        <div style="padding-left: 200px;" >
+            <div class="card" style="max-width: 400px;">
 
 
+                <div class="card-content">
+                  <p class="flow-text" style="text-align: center;">Predicted Deadline</p>
+                </div>
+
+
+                <div class="card-action" style="text-align: center;">
+                  <div class="btn-group">
+                      <h2>{{ deadline }}</h2>
+                  </div>
+                </div>
 
 
           </div>
-    </div>
-
+        </div>
 
     {% endif %}
 

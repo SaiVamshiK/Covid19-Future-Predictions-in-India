@@ -16,7 +16,7 @@ from sklearn import linear_model
 from sklearn.metrics import mean_absolute_error
 from sklearn.linear_model import LinearRegression
 # Create your views here.
-
+from datetime import date, timedelta
 states = [
     {
         'image' : '../../../static/Covid19PredictorApp/state_images/tamilnadu.png',
@@ -303,8 +303,59 @@ def daywise(request):
     
 
 def overall(request):
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
+    dates = []
+    confirmed_cases = []
+    for i in range(len(df)):
+        if df.iloc[i]['State'] == 'India':
+            t = df.iloc[i]['Date'].split('-')
+            v = datetime.datetime(int(t[0]), int(t[1]), int(t[2]))
+            dates.append(v)
+            confirmed_cases.append(df.iloc[i]['Confirmed'])
+    X = [x for x in range(1, len(dates) + 1)]
+    poly = PolynomialFeatures(degree=8)
+    new_X = poly.fit_transform(np.array(X).reshape(-1, 1))
+    LR = LinearRegression()
+    model = LR.fit(new_X, confirmed_cases)
+
+    confirmed_india = []
+    dates_india = []
+    for i in range(len(df)):
+        if (df.iloc[i]['State'] == "India"):
+            confirmed_india.append(df.iloc[i]['Confirmed'])
+            dates_india.append(df.iloc[i]['Date'])
+    for i in range(len(confirmed_india)):
+        print(dates_india[i], confirmed_india[i])
+
+
+
     context = {
         'states': states
     }
+    import math
+    nums = np.arange(1, 2000).reshape(-1, 1)
+    poly = PolynomialFeatures(degree=8)
+    inp_X = poly.fit_transform(nums)
+    predictions = model.predict(inp_X)
+
+    plt.figure(figsize=(19, 8))
+    print(len(nums))
+    print(len(predictions))
+    exp_date = 0
+    change = False
+    for i in range(400, 1999):
+        temp = predictions[i] - predictions[i - 1]
+        print(math.floor(predictions[i] - predictions[i - 1]))
+        if (temp < 0):
+            if change == False:
+                exp_date = i - 1
+                change = True
+    num_days = exp_date - len(confirmed_india)
+
+    current_date = date.today().isoformat()
+    days_after = (date.today() + timedelta(days=num_days)).isoformat()
+    context['current-date']=current_date
+    context['deadline']=days_after
+
     return render(request,'Covid19PredictorApp/overall.html',context)
     
