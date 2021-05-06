@@ -8,4 +8,8 @@ urlpatterns = [
     path('see_prediction/',views.see_prediction,name='See-Prediction'),
     path('cumulative/',views.cumulative,name='Cumulative'),
     path('daywise/',views.daywise,name='Daywise'),
+    path('overall/',views.overall,name='Overall-Analysis'),
+    path('overall/display_plot/',views.overallDisplay,name='Display-Overall-Analysis'),
+    path('overall/cumulative/',views.overallCumulative,name='Cumulative-Overall-Analysis'),
+    path('overall/daywise/',views.overallDaywise,name='Daywise-Overall-Analysis'),
 ]

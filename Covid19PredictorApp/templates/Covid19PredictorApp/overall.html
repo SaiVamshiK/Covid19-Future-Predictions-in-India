@@ -1,15 +1,11 @@
 {% extends 'Covid19PredictorApp/base.html' %}
 {% block content %}
-
-    <div style="width: 100%; text-align: center;">
-        <h3>State Wise Data</h3>
-    </div>
 <div id="container">
 {% for state in states%}
 
-   {% if state.name == 'India' %}
+    {% if state.name == 'India' %}
 
-    {% else %}
+
         <div style="margin-left: 20px;">
         <div class="card" style="max-width: 400px;">
             <div class="card-image">
@@ -38,11 +34,11 @@
 
     {% endif %}
 
+
+
 {% endfor %}
 </div>
 
-
-    
 {% endblock content %}
 
 
