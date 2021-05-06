@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'Covid19PredictorApp/main.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -16,6 +16,11 @@
       img{
           width: 300px;
           height: 300px;
+      }
+      #abc{
+        width: 30px;
+        height: 30px;
+  
       }
       #container{
           display: flex;
@@ -35,7 +40,7 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
-        <a class="navbar-brand mr-4" href="{% url 'Overall-Analysis' %}">Country Analysis</a>
+        <a class="navbar-brand nav-link" href="{% url 'Overall-Analysis' %}">Country Analysis</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
@@ -55,6 +60,31 @@
   {% block content %}{% endblock %}
 </div>
     
+
+
+<footer class="page-footer" style="background-color:#66a3ff;margin-top: 120px; margin-bottom: 0px;">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h4>Faculty Guide : </h4>
+        <br>
+        <ul>
+          <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/dr-k-radhika-gavini-620310a0/"><img id="abc" src="https://img.icons8.com/android/50/000000/linkedin.png"></a><span>          </span><a class="grey-text text-lighten-3" href="https://www.cbit.ac.in/current_students/dr-k-radhika-2/"><img id="abc" src="../../static/Covid19PredictorApp/state_images/cbit_logo.png">     <h5>Dr. K. Radhika</h5></a></li>
+          
+        </ul>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h4>Contributors : </h4>
+        <br>
+        <ul>
+          <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/jaisai-kuntala-5395281a5/"><img id="abc" src="https://img.icons8.com/android/50/000000/linkedin.png"></a><span>          </span><a class="grey-text text-lighten-3" href="https://github.com/jaisaikuntala1"><img id="abc" src="../../static/Covid19PredictorApp/state_images/gitub_icon.png">     <h5>Jaisai Kuntala</h5></a></li>
+          <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/in/kavali-sai-vamshi-24b566198/"><img id="abc" src="https://img.icons8.com/android/50/000000/linkedin.png"> </a><span>          </span><a class="grey-text text-lighten-3" href="https://github.com/SaiVamshiK"><img id="abc" src="../../static/Covid19PredictorApp/state_images/gitub_icon.png">     <h5>Sai Vamshi Kavali</h5></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ 
+</footer>
   
 
       

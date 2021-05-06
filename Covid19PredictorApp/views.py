@@ -4,10 +4,17 @@ from django.http import HttpResponse
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 import pandas as pd
 import datetime
+from datetime import date, timedelta
 from io import StringIO
 import numpy as np
 import io
 import os
+import math
+from sklearn import linear_model
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn import linear_model
+from sklearn.metrics import mean_absolute_error
+from sklearn.linear_model import LinearRegression
 # Create your views here.
 
 states = [
@@ -173,7 +180,7 @@ def about(request):
     return render(request,'Covid19PredictorApp/about.html')
 
 
-def display_plot(request):
+def see_prediction(request):
     if 'state_name' in request.GET:
         message = request.GET['state_name']
     else:
@@ -182,8 +189,47 @@ def display_plot(request):
     context = {
         'state_name' : message
     }
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
+    dates = []
+    confirmed_cases = []
+    for i in range(len(df)):
+        if df.iloc[i]['State'] == message:
+            t = df.iloc[i]['Date'].split('-')
+            v = datetime.datetime(int(t[0]),int(t[1]),int(t[2]))
+            dates.append(v)
+            confirmed_cases.append(df.iloc[i]['Confirmed'])
+    X = [x for x in range(1,len(dates)+1)]
+    poly = PolynomialFeatures(degree=8)
+    new_X = poly.fit_transform(np.array(X).reshape(-1,1))
+    LR = LinearRegression()
+    model = LR.fit(new_X,confirmed_cases)
 
-    return render(request,'Covid19PredictorApp/display_plot.html',context)
+    fromm = len(confirmed_cases)-10
+    upto = len(confirmed_cases)+10
+
+    nums = np.arange(1,upto).reshape(-1,1)
+    poly  = PolynomialFeatures(degree=8)
+    inp_X = poly.fit_transform(nums)
+    predictions = model.predict(inp_X)
+
+    actual_cases = []
+    predicted_cases = []
+    days_before = date.today()-timedelta(days=10)
+    dates = []
+    for i in range(fromm,upto-1):
+        if(i<len(confirmed_cases)):
+            actual_cases.append(confirmed_cases[i])
+            predicted_cases.append(math.floor(predictions[i]))
+        else:
+            predicted_cases.append(math.floor(predictions[i]))
+        dates.append(days_before)
+        days_before = days_before+timedelta(days=1)
+    
+    context['actual_cases'] = actual_cases
+    context['predicted_cases'] = predicted_cases
+    context['length'] = len(confirmed_cases)
+    context['Date'] = dates
+    return render(request,'Covid19PredictorApp/see_prediction.html',context)
 
 def cumulative(request):
     if 'state_name' in request.GET:
@@ -262,84 +308,3 @@ def overall(request):
     }
     return render(request,'Covid19PredictorApp/overall.html',context)
     
-
-def overallDisplay(request):
-    if 'state_name' in request.GET:
-        message = request.GET['state_name']
-    else:
-        message = 'No state selected!!'
-
-    context = {
-        'state_name' : message
-    }
-
-    return render(request,'Covid19PredictorApp/display_plot.html',context)
-
-def overallCumulative(request):
-    if 'state_name' in request.GET:
-        message = request.GET['state_name']
-    else:
-        message = 'No state selected!!'
-
-    context = {
-        'state_name' : message
-    }
-    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
-    dates = []
-    confirmed_cases = []
-    for i in range(len(df)):
-        if df.iloc[i]['State'] == message:
-            t = df.iloc[i]['Date'].split('-')
-            v = datetime.datetime(int(t[0]),int(t[1]),int(t[2]))
-            dates.append(v)
-            confirmed_cases.append(df.iloc[i]['Confirmed'])
-
-    fig, ax = plt.subplots()
-    ax.plot(dates, confirmed_cases)
-    ax.grid()
-    stri = "Confirmed cases in "+message
-    plt.title(stri)
-    plt.xlabel("Dates")
-    plt.ylabel("Confirmed cases")
-    buf = io.BytesIO()
-    plt.savefig(buf,format='png')
-    plt.close(fig)
-    response = HttpResponse(buf.getvalue(),content_type='image/png')
-    return response
-
-
-def overallDaywise(request):
-    if 'state_name' in request.GET:
-        message = request.GET['state_name']
-    else:
-        message = 'No state selected!!'
-
-    context = {
-        'state_name': message
-    }
-    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
-    dates = []
-    confirmed_cases = []
-    for i in range(len(df)):
-        if df.iloc[i]['State'] == message:
-            t = df.iloc[i]['Date'].split('-')
-            v = datetime.datetime(int(t[0]), int(t[1]), int(t[2]))
-            dates.append(v)
-            confirmed_cases.append(df.iloc[i]['Confirmed'])
-    day_wise = []
-    day_wise.append(confirmed_cases[0])
-
-    for i in range(1, len(confirmed_cases)):
-        day_wise.append(confirmed_cases[i] - confirmed_cases[i - 1])
-    fig2, ax = plt.subplots()
-    ax.plot(dates, day_wise)
-    ax.grid()
-    stri = "Daywise new cases in " + message
-    plt.title(stri)
-    plt.xlabel("Dates")
-    plt.ylabel("New cases")
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    plt.close(fig2)
-    response = HttpResponse(buf.getvalue(), content_type='image/png')
-    return response

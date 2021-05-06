@@ -1,0 +1,71 @@
+{% extends 'Covid19PredictorApp/base.html' %}
+
+{% block content %}
+
+
+<div style="width: 100%; text-align: center;">
+    <h1>{{state_name}}</h1>
+</div>
+
+<div style="width: 100%; padding-left: 350px;margin-top: 50px;">
+
+    <div style="width: 25%; float: left;">
+        <table class="striped">
+            <thead>
+              <tr>
+                  <th>Date</th>
+              </tr>
+            </thead>
+        
+            <tbody>
+            {% for date in Date%}
+              <tr>
+                <td>{{date}}   </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+        <div style="width: 25%; float: left;">
+            <table class="striped">
+                <thead>
+                  <tr>
+                      <th>Actual Cases</th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+                {% for cases in actual_cases%}
+                  <tr>
+                    <td>{{cases}}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="width: 25%; float: left;">
+            <table class="striped">
+                <thead>
+                  <tr>
+                      <th>Predicted Cases</th>
+                  </tr>
+                </thead>
+            
+                <tbody>
+                {% for cases in predicted_cases%}
+                  <tr>
+                    <td>{{cases}}   </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+</div>
+
+
+
+
+{% endblock content %}
