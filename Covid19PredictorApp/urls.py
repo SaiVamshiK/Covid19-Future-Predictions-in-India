@@ -11,5 +11,5 @@ urlpatterns = [
     path('overall/',views.overall,name='Overall-Analysis'),
     path('overall/display_plot/',views.overallDisplay,name='Display-Overall-Analysis'),
     path('overall/cumulative/',views.overallCumulative,name='Cumulative-Overall-Analysis'),
-    path('overall/display_plot/',views.overallDisplay,name='Display-Overall-Analysis'),
+    path('overall/daywise/',views.overallDaywise,name='Daywise-Overall-Analysis'),
 ]

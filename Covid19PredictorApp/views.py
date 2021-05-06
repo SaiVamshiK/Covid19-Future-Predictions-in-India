@@ -308,3 +308,14 @@ def overallCumulative(request):
     return response
 
 
+def overallDaywise(request):
+    if 'state_name' in request.GET:
+        message = request.GET['state_name']
+    else:
+        message = 'No state selected!!'
+
+    context = {
+        'state_name' : message
+    }
+
+    return render(request,'Covid19PredictorApp/display_plot.html',context)
