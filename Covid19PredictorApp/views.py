@@ -171,7 +171,7 @@ def about(request):
     return render(request,'Covid19PredictorApp/about.html')
 
 
-def display_plot(request):
+def see_prediction(request):
     if 'state_name' in request.GET:
         message = request.GET['state_name']
     else:
@@ -180,8 +180,17 @@ def display_plot(request):
     context = {
         'state_name' : message
     }
-
-    return render(request,'Covid19PredictorApp/display_plot.html',context)
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
+    dates = []
+    confirmed_cases = []
+    for i in range(len(df)):
+        if df.iloc[i]['State'] == message:
+            t = df.iloc[i]['Date'].split('-')
+            v = datetime.datetime(int(t[0]),int(t[1]),int(t[2]))
+            dates.append(v)
+            confirmed_cases.append(df.iloc[i]['Confirmed'])
+    
+    return render(request,'Covid19PredictorApp/see_prediction.html',context)
 
 def cumulative(request):
     if 'state_name' in request.GET:
