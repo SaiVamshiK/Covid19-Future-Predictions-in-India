@@ -1,0 +1,1 @@
+web: gnunicorn Covid19Predictions.wsgi --log-file -
