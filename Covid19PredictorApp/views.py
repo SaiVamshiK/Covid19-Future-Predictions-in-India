@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 import pandas as pd
 import datetime
+from datetime import date, timedelta
 from io import StringIO
 import numpy as np
 import io
@@ -213,16 +214,21 @@ def see_prediction(request):
 
     actual_cases = []
     predicted_cases = []
+    days_before = date.today()-timedelta(days=10)
+    dates = []
     for i in range(fromm,upto-1):
         if(i<len(confirmed_cases)):
             actual_cases.append(confirmed_cases[i])
             predicted_cases.append(math.floor(predictions[i]))
         else:
             predicted_cases.append(math.floor(predictions[i]))
+        dates.append(days_before)
+        days_before = days_before+timedelta(days=1)
     
     context['actual_cases'] = actual_cases
     context['predicted_cases'] = predicted_cases
     context['length'] = len(confirmed_cases)
+    context['Date'] = dates
     return render(request,'Covid19PredictorApp/see_prediction.html',context)
 
 def cumulative(request):
