@@ -9,6 +9,5 @@ urlpatterns = [
     path('cumulative/',views.cumulative,name='Cumulative'),
     path('daywise/',views.daywise,name='Daywise'),
     path('overall/',views.overall,name='Overall-Analysis'),
-    path('see_prediction/',views.overallDisplay,name='Display-Overall-Analysis'),
     
 ]
