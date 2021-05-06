@@ -26,35 +26,36 @@
                 </div>
               </div>
         </div>
+
         <div style="padding-left: 200px;" >
-            <div class="card" style="max-width: 400px;">
 
 
-                <div class="card-content">
-                  <p class="flow-text" style="text-align: center;">Today's Date</p>
-                </div>
-
-
-                <div class="card-action" style="text-align: center;">
-                  <div class="btn-group">
-                      <h6 >{{ current_date_val }}</h6>
+              <div id="accordion">
+                <div class="card">
+                  <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                      Today's Date
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                      {{ current_date_val }}
+                    </div>
                   </div>
                 </div>
-
-            </div>
-            <div class="card" style="max-width: 400px;">
-
-                <div class="card-content">
-                  <p class="flow-text" style="text-align: center;">Predicted Deadline</p>
-                </div>
-
-                <div class="card-action" style="text-align: center;">
-                  <div class="btn-group">
-                      <h6 >{{ deadline }}</h6>
+                <div class="card">
+                  <div class="card-header">
+                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                    Predicted Deadline
+                  </a>
+                  </div>
+                  <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                      {{ deadline }}
+                    </div>
                   </div>
                 </div>
-
-            </div>
+              </div>
 
         </div>
 
