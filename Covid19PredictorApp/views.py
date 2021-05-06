@@ -315,7 +315,31 @@ def overallDaywise(request):
         message = 'No state selected!!'
 
     context = {
-        'state_name' : message
+        'state_name': message
     }
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
+    dates = []
+    confirmed_cases = []
+    for i in range(len(df)):
+        if df.iloc[i]['State'] == message:
+            t = df.iloc[i]['Date'].split('-')
+            v = datetime.datetime(int(t[0]), int(t[1]), int(t[2]))
+            dates.append(v)
+            confirmed_cases.append(df.iloc[i]['Confirmed'])
+    day_wise = []
+    day_wise.append(confirmed_cases[0])
 
-    return render(request,'Covid19PredictorApp/display_plot.html',context)
+    for i in range(1, len(confirmed_cases)):
+        day_wise.append(confirmed_cases[i] - confirmed_cases[i - 1])
+    fig2, ax = plt.subplots()
+    ax.plot(dates, day_wise)
+    ax.grid()
+    stri = "Daywise new cases in " + message
+    plt.title(stri)
+    plt.xlabel("Dates")
+    plt.ylabel("New cases")
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close(fig2)
+    response = HttpResponse(buf.getvalue(), content_type='image/png')
+    return response
