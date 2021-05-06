@@ -6,38 +6,30 @@
     {% if state.name == 'India' %}
 
 
-
-        <div class="card" style="width: 37rem; margin:0 auto;">
-            <img class="card-img-top"
-                src= "{{state.image}}"
-                        alt="Card image cap">
-
-            <div class="card-body">
-                <h5 class="card-title" style="color:green">
-                    {{state.name}}
-                </h5>
-            </div>
-
-            <div class="card-footer text-center">
-
-                <button href="display_plot/?state_name={{state.name}}" class="btn btn-primary btn-sm float-left"
-                            id="left" style="color:white">
-                    See Predictions
-                </button>
-
-                <button href="cumulative/?state_name={{state.name}}" class="btn btn-warning btn-sm"
-                        id="center" style="color:white">
-                    Cumulative Plot
-                </button>
-                <button href="daywise/?state_name={{state.name}}" class="btn btn-danger btn-sm float-right"
-                        id="right" style="color:white">
-                    Day-wise Plot
-                </button>
+        <div style="margin-left: 20px;">
+        <div class="card" style="max-width: 400px;">
+            <div class="card-image">
+              <img src="{{state.image}}">
 
             </div>
-        </div>
+            <div class="card-content">
+              <p class="flow-text" style="text-align: center;">{{state.name}}</p>
+            </div>
 
 
+            <div class="card-action" style="text-align: center;">
+              <div class="btn-group">
+                <a href="display_plot/?state_name={{state.name}}" class="button">See Predictions</a>
+                <a href="cumulative/?state_name={{state.name}}" class="button">Cumulative Plot</a>
+                <a href="daywise/?state_name={{state.name}}">Day-wise Plot</a>
+              </div>
+            </div>
+
+
+
+
+          </div>
+    </div>
 
 
     {% endif %}
