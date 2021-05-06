@@ -8,6 +8,12 @@ from io import StringIO
 import numpy as np
 import io
 import os
+import math
+from sklearn import linear_model
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn import linear_model
+from sklearn.metrics import mean_absolute_error
+from sklearn.linear_model import LinearRegression
 # Create your views here.
 
 states = [
@@ -191,7 +197,32 @@ def see_prediction(request):
             v = datetime.datetime(int(t[0]),int(t[1]),int(t[2]))
             dates.append(v)
             confirmed_cases.append(df.iloc[i]['Confirmed'])
+    X = [x for x in range(1,len(dates)+1)]
+    poly = PolynomialFeatures(degree=8)
+    new_X = poly.fit_transform(np.array(X).reshape(-1,1))
+    LR = LinearRegression()
+    model = LR.fit(new_X,confirmed_cases)
+
+    fromm = len(confirmed_cases)-10
+    upto = len(confirmed_cases)+10
+
+    nums = np.arange(1,upto).reshape(-1,1)
+    poly  = PolynomialFeatures(degree=8)
+    inp_X = poly.fit_transform(nums)
+    predictions = model.predict(inp_X)
+
+    actual_cases = []
+    predicted_cases = []
+    for i in range(fromm,upto-1):
+        if(i<len(confirmed_cases)):
+            actual_cases.append(confirmed_cases[i])
+            predicted_cases.append(math.floor(predictions[i]))
+        else:
+            predicted_cases.append(math.floor(predictions[i]))
     
+    context['actual_cases'] = actual_cases
+    context['predicted_cases'] = predicted_cases
+    context['length'] = len(confirmed_cases)
     return render(request,'Covid19PredictorApp/see_prediction.html',context)
 
 def cumulative(request):
