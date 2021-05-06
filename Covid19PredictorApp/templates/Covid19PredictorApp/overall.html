@@ -30,28 +30,28 @@
         <div style="padding-left: 200px;" >
 
 
-              <div id="accordion">
-                <div class="card">
+              <div id="accordion" >
+                <div class="card" style="width: 200px">
                   <div class="card-header">
                     <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                      Today's Date
+                      <strong>Today's Date</strong>
                     </a>
                   </div>
                   <div id="collapseOne" class="collapse show" data-parent="#accordion">
                     <div class="card-body">
-                      {{ current_date_val }}
+                      <strong>{{ current_date_val }}</strong>
                     </div>
                   </div>
                 </div>
-                <div class="card">
+                <div class="card" style="width: 200px">
                   <div class="card-header">
                     <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
-                    Predicted Deadline
+                    <strong>Predicted Deadline</strong>
                   </a>
                   </div>
                   <div id="collapseTwo" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                      {{ deadline }}
+                      <strong>{{ deadline }}</strong>
                     </div>
                   </div>
                 </div>
