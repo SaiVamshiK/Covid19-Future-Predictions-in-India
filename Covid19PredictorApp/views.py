@@ -184,7 +184,7 @@ def see_prediction(request):
     if 'state_name' in request.GET:
         message = request.GET['state_name']
     else:
-        message = 'No state selected!!'
+        message = 'India'
 
     context = {
         'state_name' : message
@@ -235,7 +235,7 @@ def cumulative(request):
     if 'state_name' in request.GET:
         message = request.GET['state_name']
     else:
-        message = 'No state selected!!'
+        message = 'India'
 
     context = {
         'state_name' : message
@@ -268,7 +268,7 @@ def daywise(request):
     if 'state_name' in request.GET:
         message = request.GET['state_name']
     else:
-        message = 'No state selected!!'
+        message = 'India'
 
     context = {
         'state_name' : message
@@ -352,3 +352,44 @@ def overall(request):
     context['deadline'] = days_after
 
     return render(request, 'Covid19PredictorApp/overall.html', context)
+
+
+
+def prediction_plot(request):
+    if 'state_name' in request.GET:
+        message = request.GET['state_name']
+    else:
+        message = 'India'
+
+    context = {
+        'state_name' : message
+    }
+    df = pd.read_csv("https://api.covid19india.org/csv/latest/states.csv")
+    dates = []
+    confirmed_cases = []
+    for i in range(len(df)):
+        if df.iloc[i]['State'] == message:
+            t = df.iloc[i]['Date'].split('-')
+            v = datetime.datetime(int(t[0]),int(t[1]),int(t[2]))
+            dates.append(v)
+            confirmed_cases.append(df.iloc[i]['Confirmed'])
+    X = [x for x in range(1,len(dates)+1)]
+    poly = PolynomialFeatures(degree=8)
+    new_X = poly.fit_transform(np.array(X).reshape(-1,1))
+    LR = LinearRegression()
+    model = LR.fit(new_X,confirmed_cases)
+    predictions = model.predict(new_X)
+    fig, ax = plt.subplots()
+    ax.plot(dates,confirmed_cases,color='blue',label='Actual')
+    ax.plot(dates,predictions,color='orange',label='Predicted')
+    ax.grid()
+    stri = "Confirmed cases in "+message
+    plt.title(stri)
+    plt.xlabel("Dates")
+    plt.ylabel("Confirmed cases")
+    plt.legend()
+    buf = io.BytesIO()
+    plt.savefig(buf,format='png')
+    plt.close(fig)
+    response = HttpResponse(buf.getvalue(),content_type='image/png')
+    return response
